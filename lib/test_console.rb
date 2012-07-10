@@ -1,0 +1,2 @@
+module TestConsole
+end
