@@ -14,3 +14,14 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
+html
+.*.sw?
+tmp
+results.html
+coverage
+*.rbc
+.DS_Store

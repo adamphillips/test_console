@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+# Initialises the test console.
+# This enables running of tests without reloading rails environment each time for improved speed
+# To start the console (assuming you are already in a store folder)
+#
+# > cd test
+# > ./console
+
+#require 'rails'
+require 'readline'
+
+require 'test/unit'
+require 'test/unit/ui/console/testrunner'
+
+require "test/test_helper"
+#require "test/test_helper"
+#require "#{File.join(Rails.root.to_s, 'config', 'application')}"
+
+#require '../config/application'
+
+require 'test_console'
+
+command = nil
+
+TestConsole::History.read
+
+TestConsole.out "#{TestConsole.color 'Test Console', :bold}: run <filename> runs the specified test; ? for more commands"
+
+while line = Readline.readline('> ', false)
+  trap("SIGINT") {TestConsole.abort}
+  begin
+    break if line.nil? || TestConsole::QUIT_COMMANDS.include?(line)
+
+    unless line.empty?
+      TestConsole::History.add line
+
+      command = TestConsole.command(line)
+      file = TestConsole.file(line)
+      filter = TestConsole.filter(line)
+
+      case
+        when TestConsole::RUN_COMMANDS.include?(command)
+          TestConsole.run file, filter
+        when TestConsole::RERUN_COMMANDS.include?(command)
+          type = file || 'all'
+          TestConsole.rerun type.to_sym
+        when TestConsole::HELP_COMMANDS.include?(command)
+          TestConsole.out TestConsole.help
+        else
+            result = eval(line)
+            puts "=> #{result}"
+      end
+    end
+  rescue Exception => e
+    TestConsole.error e.message if e
+  rescue Error => e
+    TestConsole.error e.message if e
+  end
+end
+
+TestConsole.die
+
