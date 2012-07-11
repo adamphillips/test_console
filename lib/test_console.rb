@@ -1,4 +1,5 @@
 require 'test_console/history'
+require 'test_console/utility'
 
 module TestConsole
 
@@ -12,6 +13,8 @@ module TestConsole
   RUN_COMMANDS = ['run', 'r']
   RERUN_COMMANDS = ['rerun', '.']
   HELP_COMMANDS = ['help', 'h', '?', 'wtf']
+
+  DUMMY_FOLDER = 'dummy/test'
 
   COLORS = {
     :reset => '0',
@@ -220,16 +223,17 @@ module TestConsole
     # Creates a test suite based on a path to a test file
     def make_suite_from_file(test_filename, filter=nil)
       # drop the test folder
-      klass = class_from_filename(test_filename)
-
-      test_file = File.join(Rails.root.to_s, 'test', test_filename)
+      test_file = File.join(test_filename)
+      out test_file.inspect, :blue
       raise "Can't find #{test_file}" and return unless File.exists?(test_file)
 
-      const_remove(klass) if const_defined?(klass)
+      klass = Utility.class_from_filename(test_file)
+
+      const_remove(klass) if Utility.const_defined?(klass)
       load test_file
 
-      if const_defined?(klass)
-        return suite = const_get(klass).suite
+      if Utility.const_defined?(klass)
+        return suite = Utility.const_get(klass).suite
       else
         raise "WARNING: #{test_filename} does not define #{klass.join('/')}"
       end
@@ -239,17 +243,19 @@ module TestConsole
     def make_suite_from_folder(path, filter=nil)
       suite = Test::Unit::TestSuite.new(path)
 
-      Dir.glob(File.join(Rails.root.to_s, 'test', path, "**", "*_test.rb")).each do |fname|
-        fname = fname[Rails.root.to_s.length+1..-1]
-        klass = class_from_filename(fname)
+      Dir.glob(File.join("**", "*_test.rb")).each do |fname|
+        if fname[0..DUMMY_FOLDER.length] != "#{DUMMY_FOLDER}/"
+          klass = Utility.class_from_filename(fname)
 
-        const_remove(klass) if const_defined?(klass)
-        load File.join(Rails.root.to_s, fname)
+          const_remove(klass) if Utility.const_defined?(klass)
 
-        if const_defined?(klass)
-          const_get(klass).suite.tests.each {|t| suite.tests << t}
-        else
-          raise "WARNING: #{fname} does not define #{klass.join('/')}"
+          load File.join(fname)
+
+          if Utility.const_defined?(klass)
+            Utility.const_get(klass).suite.tests.each {|t| suite.tests << t}
+          else
+            raise "WARNING: #{fname} does not define #{klass.join('/')}"
+          end
         end
       end
       return suite
@@ -271,7 +277,7 @@ module TestConsole
           if File.mtime(f) > @last_reload_time
             rel_path = f[watch_folder.length+1..-1]
             out "Reloading #{rel_path}", :cyan
-            klass = class_from_filename(rel_path)
+            klass = Utility.class_from_filename(rel_path)
             const_remove(klass) if const_defined?(klass)
             load f
           end
@@ -325,23 +331,25 @@ module TestConsole
     # =================
     # Additional functions to help with general tasks
 
-    # Returns an array of class components from a filename
-    # eg for mgm/subscribe_controller => ['Mgm', 'SubscribeController']
-    def class_from_filename(filename)
-      segs = filename.split('/')
-      segs.last.gsub!('.rb', '')
+    ## Returns an array of class components from a filename
+    ## eg for mgm/subscribe_controller => ['Mgm', 'SubscribeController']
+    #def class_from_filename(filename)
+      #puts filename
+      #segs = filename.split('/')
+      #segs.last.gsub!('.rb', '')
 
-      # If the first path component is the test folder, drop that
-      segs = segs[1..-1] if segs[0] == 'test'
+      ## If the first path component is the test folder, drop that
+      #segs = segs[1..-1] if segs[0] == './'
+      #segs = segs[1..-1] if segs[0] == 'test'
 
-      # Now drop the unit/functional/integration etc folder
-      segs = segs[1..-1]
+      ## Now drop the unit/functional/integration etc folder
+      #segs = segs[1..-1]
 
-      # since helper tests live in a subfolder of unit tests, we need to remove that from the class components
-      # otherwise the test runner will try to load Helpers::SomeHelper rather than just SomeHelper
-      segs = segs[1..-1] if segs[0] == 'helpers'
-      segs.map{|s| s.camelize}
-    end
+      ## since helper tests live in a subfolder of unit tests, we need to remove that from the class components
+      ## otherwise the test runner will try to load Helpers::SomeHelper rather than just SomeHelper
+      #segs = segs[1..-1] if segs[0] == 'helpers'
+      #segs.map{|s| s.camelize}
+    #end
 
     def color(text, color)
       if COLORS[color]
@@ -349,25 +357,15 @@ module TestConsole
       end
     end
 
-    def const_defined?(klass)
-      klass.inject(Object) do |context, scope|
-        if context.const_defined?(scope)
-          context.const_get(scope)
-        else
-          return false
-        end
-      end
-    end
-
-    def const_get(klass)
-      klass.inject(Object) do |context, scope|
-        context.const_get(scope)
-      end
-    end
+    #def const_get(klass)
+      #klass.inject(Object) do |context, scope|
+        #context.const_get(scope)
+      #end
+    #end
 
     def const_remove(klass)
       if klass.length > 1
-        const_get(klass[0..-2]).send :remove_const, klass.last
+        Utility.const_get(klass[0..-2]).send :remove_const, klass.last
       elsif klass.any?
         Object.send :remove_const, klass.last
       end

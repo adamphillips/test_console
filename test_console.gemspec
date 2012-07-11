@@ -19,5 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.1.0"
   s.add_development_dependency "aruba"
+  s.add_development_dependency "mocha"
+  s.add_development_dependency "shoulda"
   s.add_development_dependency "sqlite3"
 end

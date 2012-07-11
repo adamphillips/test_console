@@ -9,7 +9,6 @@ require "active_resource/railtie"
 require "rails/test_unit/railtie"
 
 Bundler.require
-require "test_console"
 
 module Dummy
   class Application < Rails::Application

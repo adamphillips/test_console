@@ -13,11 +13,8 @@ require 'readline'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
-require "test/test_helper"
-#require "test/test_helper"
-#require "#{File.join(Rails.root.to_s, 'config', 'application')}"
-
-#require '../config/application'
+require "test_helper"
+require '../config/application'
 
 require 'test_console'
 
