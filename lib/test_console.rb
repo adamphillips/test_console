@@ -3,6 +3,8 @@ require 'test_console/utility'
 
 module TestConsole
 
+  include Utility
+
   WATCH_PATHS = ['test/support', 'lib', 'app/models', 'app/controllers', 'app/helpers', 'app/presenters']
   VIEW_FOLDERS = ['app/views']
   # These are folders that mean the test console need to be reloaded if any files in them are modified.
@@ -149,15 +151,15 @@ module TestConsole
 
     def out(text, text_color=nil)
       if text_color
-        STDOUT.puts color(text, text_color)
+        STDOUT.puts Utility.color(text, text_color)
       else
         STDOUT.puts text
       end
     end
 
     def error(message, backtrace=nil)
-      STDERR.puts color(message, :red)
-      backtrace.each {|line| STDERR.puts color(line, :red)} unless backtrace.nil? || backtrace.empty?
+      STDERR.puts Utility.color(message, ERROR_COLOR)
+      backtrace.each {|line| STDERR.puts Utility.color(line, ERROR_COLOR)} unless backtrace.nil? || backtrace.empty?
     end
 
     def print_negatives(items, color)
@@ -227,13 +229,13 @@ module TestConsole
       out test_file.inspect, :blue
       raise "Can't find #{test_file}" and return unless File.exists?(test_file)
 
-      klass = Utility.class_from_filename(test_file)
+      klass = class_from_filename(test_file)
 
-      const_remove(klass) if Utility.const_defined?(klass)
+      const_remove(klass) if const_defined?(klass)
       load test_file
 
-      if Utility.const_defined?(klass)
-        return suite = Utility.const_get(klass).suite
+      if const_defined?(klass)
+        return suite = const_get(klass).suite
       else
         raise "WARNING: #{test_filename} does not define #{klass.join('/')}"
       end
@@ -247,7 +249,7 @@ module TestConsole
         if fname[0..DUMMY_FOLDER.length] != "#{DUMMY_FOLDER}/"
           klass = Utility.class_from_filename(fname)
 
-          const_remove(klass) if Utility.const_defined?(klass)
+          Utility.const_remove(klass) if Utility.const_defined?(klass)
 
           load File.join(fname)
 
@@ -330,46 +332,6 @@ module TestConsole
     # Utility functions
     # =================
     # Additional functions to help with general tasks
-
-    ## Returns an array of class components from a filename
-    ## eg for mgm/subscribe_controller => ['Mgm', 'SubscribeController']
-    #def class_from_filename(filename)
-      #puts filename
-      #segs = filename.split('/')
-      #segs.last.gsub!('.rb', '')
-
-      ## If the first path component is the test folder, drop that
-      #segs = segs[1..-1] if segs[0] == './'
-      #segs = segs[1..-1] if segs[0] == 'test'
-
-      ## Now drop the unit/functional/integration etc folder
-      #segs = segs[1..-1]
-
-      ## since helper tests live in a subfolder of unit tests, we need to remove that from the class components
-      ## otherwise the test runner will try to load Helpers::SomeHelper rather than just SomeHelper
-      #segs = segs[1..-1] if segs[0] == 'helpers'
-      #segs.map{|s| s.camelize}
-    #end
-
-    def color(text, color)
-      if COLORS[color]
-        "\e[#{COLORS[color]}m#{text}\e[#{COLORS[:reset]}m"
-      end
-    end
-
-    #def const_get(klass)
-      #klass.inject(Object) do |context, scope|
-        #context.const_get(scope)
-      #end
-    #end
-
-    def const_remove(klass)
-      if klass.length > 1
-        Utility.const_get(klass[0..-2]).send :remove_const, klass.last
-      elsif klass.any?
-        Object.send :remove_const, klass.last
-      end
-    end
 
     # Help text
     # =========

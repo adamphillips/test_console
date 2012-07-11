@@ -22,7 +22,7 @@ command = nil
 
 TestConsole::History.read
 
-TestConsole.out "#{TestConsole.color 'Test Console', :bold}: run <filename> runs the specified test; ? for more commands"
+TestConsole.out "#{TestConsole::Utility.color 'Test Console', :bold}: run <filename> runs the specified test; ? for more commands"
 
 while line = Readline.readline('> ', false)
   trap("SIGINT") {TestConsole.abort}

@@ -6,6 +6,13 @@ class ActiveSupport::TestCase
   end
 
   class << self
+    def describe_class class_name, &block
+      TestConsole.out class_name.to_s.inspect, :blue
+      context "#{class_name.to_s}" do
+        merge_block &block
+      end
+    end
+
     def describe_method method, &block
       context method do
         merge_block &block
@@ -14,10 +21,6 @@ class ActiveSupport::TestCase
 
     def subject
     end
-  end
-
-  def assert_false value, message=nil
-    assert !value, message
   end
 
 end
