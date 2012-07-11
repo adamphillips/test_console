@@ -1,9 +1,8 @@
 require 'test_console/history'
+require 'test_console/output'
 require 'test_console/utility'
 
 module TestConsole
-
-  include Utility
 
   WATCH_PATHS = ['test/support', 'lib', 'app/models', 'app/controllers', 'app/helpers', 'app/presenters']
   VIEW_FOLDERS = ['app/views']
@@ -35,6 +34,8 @@ module TestConsole
   SUCCESS_COLOR = :green
 
   class << self
+    include TestConsole::Output
+
     # Checks that the specified path is valid
     # If so it creates a test suite from the path and runs it
     def run path, filter=nil
@@ -145,43 +146,6 @@ module TestConsole
       exit
     end
 
-    # Output functions
-    # =================
-    # Functions to format and display output
-
-    def out(text, text_color=nil)
-      if text_color
-        STDOUT.puts Utility.color(text, text_color)
-      else
-        STDOUT.puts text
-      end
-    end
-
-    def error(message, backtrace=nil)
-      STDERR.puts Utility.color(message, ERROR_COLOR)
-      backtrace.each {|line| STDERR.puts Utility.color(line, ERROR_COLOR)} unless backtrace.nil? || backtrace.empty?
-    end
-
-    def print_negatives(items, color)
-      if items.kind_of? Array
-        items.each do |item|
-          out "\n#{item.long_display}", color
-        end
-      end
-    end
-
-    def print_result_summary(result, time_taken=0)
-      if result.failure_count == 0 && result.error_count == 0
-        final_color = SUCCESS_COLOR
-      elsif result.error_count > 0
-        final_color = ERROR_COLOR
-      else
-        final_color = FAIL_COLOR
-      end
-
-      out "\nTests: #{result.run_count}, Assertions: #{result.assertion_count}, Fails:  #{result.failure_count}, Errors: #{result.error_count}, Time taken #{sprintf('%.2f', time_taken)}s", final_color
-    end
-
     # Parsing functions
     # =================
     # Functions to parse and normalise user input
@@ -224,18 +188,16 @@ module TestConsole
 
     # Creates a test suite based on a path to a test file
     def make_suite_from_file(test_filename, filter=nil)
-      # drop the test folder
       test_file = File.join(test_filename)
-      out test_file.inspect, :blue
       raise "Can't find #{test_file}" and return unless File.exists?(test_file)
 
-      klass = class_from_filename(test_file)
+      klass = Utility.class_from_filename(test_file)
 
-      const_remove(klass) if const_defined?(klass)
+      Utility.const_remove(klass) if Utility.const_defined?(klass)
       load test_file
 
-      if const_defined?(klass)
-        return suite = const_get(klass).suite
+      if Utility.const_defined?(klass)
+        return suite = Utility.const_get(klass).suite
       else
         raise "WARNING: #{test_filename} does not define #{klass.join('/')}"
       end
@@ -251,7 +213,7 @@ module TestConsole
 
           Utility.const_remove(klass) if Utility.const_defined?(klass)
 
-          load File.join(fname)
+          load fname
 
           if Utility.const_defined?(klass)
             Utility.const_get(klass).suite.tests.each {|t| suite.tests << t}

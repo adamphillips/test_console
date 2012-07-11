@@ -1,12 +1,16 @@
 module TestConsole
   module Utility
-    class << self
+    def self.included (base)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
       ## Returns an array of class components from a filename
       ## eg for module/controller => ['Module', 'Controller']
       def class_from_filename(filename)
-
         segs = filename.split('/')
         segs.delete ''
+        segs.delete '.'
         segs.last.gsub!('.rb', '')
 
         # drop the test folder
@@ -51,5 +55,8 @@ module TestConsole
       end
 
     end
+
+    extend ClassMethods
+
   end
 end
