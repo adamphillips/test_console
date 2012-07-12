@@ -23,5 +23,5 @@ html
 tmp
 results.html
 coverage
-*.rbc
+.rvmrc
 .DS_Store

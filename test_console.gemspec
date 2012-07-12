@@ -17,8 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
-  s.add_dependency "rails", "~> 3.1.0"
-  s.add_development_dependency "aruba"
+  s.add_dependency "rails", ">= 3.0"
   s.add_development_dependency "mocha"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "sqlite3"
