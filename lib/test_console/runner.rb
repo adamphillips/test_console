@@ -1,5 +1,7 @@
 module TestConsole
   module Runner
+    include TestConsole::Colors
+
     # Checks that the specified path is valid
     # If so it creates a test suite from the path and runs it
     def run path, filter=nil

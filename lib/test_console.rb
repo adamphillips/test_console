@@ -1,11 +1,11 @@
 require 'test_console/history'
+require 'test_console/utility'
 
 require 'test_console/builder'
+require 'test_console/colors'
 require 'test_console/monitor'
 require 'test_console/output'
 require 'test_console/runner'
-
-require 'test_console/utility'
 
 module TestConsole
 
@@ -22,24 +22,9 @@ module TestConsole
 
   DUMMY_FOLDER = 'dummy/test'
 
-  COLORS = {
-    :reset => '0',
-    :bold => '1',
-    :red => '31',
-    :green => '32',
-    :yellow => '33',
-    :blue => '34',
-    :magenta => '35',
-    :cyan => '36',
-    :white => '37'
-  }
-
-  ERROR_COLOR = :magenta
-  FAIL_COLOR = :red
-  SUCCESS_COLOR = :green
-
   class << self
     include TestConsole::Builder
+    include TestConsole::Colors
     include TestConsole::Monitor
     include TestConsole::Output
     include TestConsole::Runner

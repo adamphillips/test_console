@@ -21,12 +21,6 @@ module TestConsole
         return ret
       end
 
-      def color(text, color)
-        if COLORS[color]
-          "\e[#{COLORS[color]}m#{text}\e[#{COLORS[:reset]}m"
-        end
-      end
-
       def const_defined?(klass)
         klass = [klass] unless klass.kind_of? Array
         klass.inject(Object) do |context, scope|

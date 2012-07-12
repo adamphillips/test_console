@@ -1,20 +1,22 @@
 module TestConsole
   module Output
+    include TestConsole::Colors
+
     # Output functions
     # =================
     # Functions to format and display output
 
     def out(text, text_color=nil)
       if text_color
-        STDOUT.puts Utility.color(text, text_color)
+        STDOUT.puts color(text, text_color)
       else
         STDOUT.puts text
       end
     end
 
     def error(message, backtrace=nil)
-      STDERR.puts Utility.color(message, ERROR_COLOR)
-      backtrace.each {|line| STDERR.puts Utility.color(line, ERROR_COLOR)} unless backtrace.nil? || backtrace.empty?
+      STDERR.puts color(message, ERROR_COLOR)
+      backtrace.each {|line| STDERR.puts color(line, ERROR_COLOR)} unless backtrace.nil? || backtrace.empty?
     end
 
     def print_negatives(items, color)

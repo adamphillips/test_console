@@ -13,13 +13,13 @@ Yet...
 
 To use the console, cd into your tests folder and type
 
-  > test_console
+  > > test_console
 
 To run a test type
 
-  > run path/to/test.rb
+  > > run path/to/test.rb
 
   or
 
-  > run folder/to/test
+  > > run folder/to/test
 
