@@ -3,9 +3,12 @@ require 'test_console/utility'
 
 require 'test_console/builder'
 require 'test_console/colors'
+require 'test_console/help'
 require 'test_console/monitor'
 require 'test_console/output'
 require 'test_console/runner'
+
+require 'action_view/resolver'
 
 module TestConsole
 
@@ -25,6 +28,7 @@ module TestConsole
   class << self
     include TestConsole::Builder
     include TestConsole::Colors
+    include TestConsole::Help
     include TestConsole::Monitor
     include TestConsole::Output
     include TestConsole::Runner
@@ -63,47 +67,5 @@ module TestConsole
       end
     end
 
-    # Utility functions
-    # =================
-    # Additional functions to help with general tasks
-
-    # Help text
-    # =========
-
-    def help
-    "
-    Test console help
-    =================
-    Run Commands : #{RUN_COMMANDS.join(', ')}
-
-    To run a test, type 'run' followed by the path to the test
-    You can also append a string or regex to filter by
-
-    Examples:
-      run functional/mgm
-      run functional/application_controller_test.rb
-      run functional/application_controller_test.rb 'PartOfTestName'
-      run functional/application_controller_test.rb /PartOfTestName/i
-
-    Rerun Commands : #{RERUN_COMMANDS.join(', ')}
-
-    Reruns only the tests that failed or errored in the previous run
-
-    Quit Commands : #{QUIT_COMMANDS.join(', ')}
-
-    Exits the console
-    "
-    end
-
   end
 end
-
-# This sets ActionView to use our custom test when checking whether to cache view templates
-module ActionView
-  class Resolver
-    def caching?
-      @caching = TestConsole.views_changed?
-    end
-  end
-end
-
