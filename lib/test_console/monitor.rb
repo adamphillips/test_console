@@ -12,13 +12,15 @@ module TestConsole
 
       WATCH_PATHS.each do |p|
         watch_folder = File.join(Rails.root.to_s, p)
-        Dir.glob(File.join(watch_folder, '**', '*.*rb')).each do |f|
+        Dir.glob(File.join('..', p, '**', '*.*rb')).each do |f|
           if File.mtime(f) > @last_reload_time
-            rel_path = f[watch_folder.length+1..-1]
+            abs_path = File.join(Dir.pwd, f)
+            rel_path = f.gsub /#{Rails.root.to_s}/, ''
+            rel_path = rel_path.gsub /..\/#{p}/, ''
             TestConsole.out "Reloading #{rel_path}", :cyan
             klass = Utility.class_from_filename(rel_path)
-            const_remove(klass) if const_defined?(klass)
-            load f
+            Utility.const_remove(klass) if Utility.const_defined?(klass)
+            load abs_path
           end
         end
       end
@@ -32,8 +34,8 @@ module TestConsole
       return false if @last_init_time.nil?
 
       STOP_FOLDERS.each do |p|
-        watch_folder = File.join(Rails.root.to_s, p)
-        Dir.glob(File.join(watch_folder, '**', '*.{rb,yml}')).each do |f|
+        #watch_folder = File.join(Rails.root.to_s, p)
+        Dir.glob(File.join('..', p, '**', '*.{rb,yml}')).each do |f|
           if File.mtime(f) > @last_init_time
             error "#{f} has been changed.\nYou will need to restart the console to reload the environment"
             return true
