@@ -16,7 +16,8 @@ module TestConsole
           if File.mtime(f) > @last_reload_time
             abs_path = File.join(Dir.pwd, f)
             rel_path = f.gsub /#{Rails.root.to_s}/, ''
-            rel_path = rel_path.gsub /..\/#{p}/, ''
+            rel_path = rel_path.gsub /..\//, ''
+            rel_path = rel_path.gsub /#{p}\//, ''
             TestConsole.out "Reloading #{rel_path}", :cyan
             klass = Utility.class_from_filename(rel_path)
             Utility.const_remove(klass) if Utility.const_defined?(klass)

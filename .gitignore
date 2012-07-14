@@ -25,3 +25,5 @@ results.html
 coverage
 .rvmrc
 .DS_Store
+*.log
+log
