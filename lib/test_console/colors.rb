@@ -14,10 +14,10 @@ module TestConsole
       :white => '37'
     }
 
-    ERROR_COLOR = :magenta
+    ERROR_COLOR = :red
     BACKTRACE_LOCAL_COLOR = ERROR_COLOR
-    BACKTRACE_GEM_COLOR = :red
-    FAIL_COLOR = :red
+    BACKTRACE_GEM_COLOR = :magenta
+    FAIL_COLOR = :magenta
     SUCCESS_COLOR = :green
 
     def color(text, color)
