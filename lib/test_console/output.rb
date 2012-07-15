@@ -10,6 +10,7 @@ module TestConsole
 
     def out(text, text_color=nil)
       extend Hirb::Console
+      text = text.to_a if text.kind_of? ActiveRecord::Base
 
       if text.kind_of? Array
         STDOUT.puts start_color text_color if text_color

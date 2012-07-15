@@ -46,7 +46,8 @@ while line = Readline.readline('> ', false)
           TestConsole.out TestConsole.help
         else
             result = eval(line)
-            puts "=> #{result}"
+            TestConsole.out '=>', :yellow
+            TestConsole.out result
       end
     end
   rescue Exception => e
