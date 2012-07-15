@@ -20,8 +20,16 @@ module TestConsole
 
     def color(text, color)
       if COLORS[color]
-        "\e[#{COLORS[color]}m#{text}\e[#{COLORS[:reset]}m"
+        "#{start_color color}#{text}#{reset_color}"
       end
+    end
+
+    def reset_color
+      "\e[#{COLORS[:reset]}m"
+    end
+
+    def start_color color
+      "\e[#{COLORS[color]}m"
     end
   end
 end

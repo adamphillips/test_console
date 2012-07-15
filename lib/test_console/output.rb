@@ -1,3 +1,5 @@
+require 'hirb'
+
 module TestConsole
   module Output
     include TestConsole::Colors
@@ -7,9 +9,15 @@ module TestConsole
     # Functions to format and display output
 
     def out(text, text_color=nil)
-      if text_color
-        STDOUT.puts color(text, text_color)
+      extend Hirb::Console
+
+      if text.kind_of? Array
+        STDOUT.puts start_color text_color if text_color
+        table text
+        STDOUT.puts reset_color if text_color
       else
+        text = color(text, text_color) if text_color
+
         STDOUT.puts text
       end
     end
