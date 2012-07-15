@@ -24,7 +24,7 @@ module TestConsole
 
     def error(message, backtrace=nil)
       STDERR.puts color(message, ERROR_COLOR)
-      backtrace.each {|line| STDERR.puts color(line, ERROR_COLOR)} unless backtrace.nil? || backtrace.empty?
+      backtrace.each {|line| line_color = (line[0..1] == '/') ? BACKTRACE_LOCAL_COLOR : BACKTRACE_GEM_COLOR; STDERR.puts color(line, line_color)} unless backtrace.nil? || backtrace.empty?
     end
 
     def print_negatives(items, color)

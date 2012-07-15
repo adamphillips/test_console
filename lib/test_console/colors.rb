@@ -15,6 +15,8 @@ module TestConsole
     }
 
     ERROR_COLOR = :magenta
+    BACKTRACE_LOCAL_COLOR = ERROR_COLOR
+    BACKTRACE_GEM_COLOR = :red
     FAIL_COLOR = :red
     SUCCESS_COLOR = :green
 
