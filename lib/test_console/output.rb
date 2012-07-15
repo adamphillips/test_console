@@ -8,13 +8,13 @@ module TestConsole
     # =================
     # Functions to format and display output
 
-    def out(text, text_color=nil)
+    def out(text, text_color=nil, *opts)
       extend Hirb::Console
       text = text.to_a if text.kind_of? ActiveRecord::Base
 
       if text.kind_of? Array
         STDOUT.puts start_color text_color if text_color
-        table text
+        table text, *opts
         STDOUT.puts reset_color if text_color
       else
         text = color(text, text_color) if text_color

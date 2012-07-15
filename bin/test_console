@@ -33,21 +33,28 @@ while line = Readline.readline('> ', false)
       TestConsole::History.add line
 
       command = TestConsole.command(line)
-      file = TestConsole.file(line)
-      filter = TestConsole.filter(line)
 
       case
         when TestConsole::RUN_COMMANDS.include?(command)
+          file = TestConsole.file(line)
+          filter = TestConsole.filter(line)
+
           TestConsole.run file, filter
+
         when TestConsole::RERUN_COMMANDS.include?(command)
+          file = TestConsole.file(line)
+          filter = TestConsole.filter(line)
           type = file || 'all'
+
           TestConsole.rerun type.to_sym
+
         when TestConsole::HELP_COMMANDS.include?(command)
           TestConsole.out TestConsole.help
+
         else
-            result = eval(line)
-            TestConsole.out '=>', :yellow
-            TestConsole.out result
+          result = eval(line)
+          TestConsole.out '=>', :yellow
+          TestConsole.out result
       end
     end
   rescue Exception => e
