@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    test_console (0.0.3)
+    test_console (0.0.4)
       hirb
       rails (>= 3.0)
 
