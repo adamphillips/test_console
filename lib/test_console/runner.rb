@@ -38,6 +38,9 @@ module TestConsole
     def rerun type=nil
       return false unless @last_run_path
 
+      #auto_reload!
+      #@checked_views = false
+
       if File.directory? @last_run_path
         suite = make_suite_from_folder(@last_run_path, @last_run_filter)
       else
