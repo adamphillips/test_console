@@ -1,5 +1,9 @@
+require 'test_console/config'
+
 module TestConsole
   module Builder
+    include TestConsole::Config
+
     # Suite generation functions
     # ==========================
     # Functions to generate and refine suites of tests
@@ -33,7 +37,7 @@ module TestConsole
       suite = Test::Unit::TestSuite.new(path)
 
       Dir.glob(File.join("**", "*_test.rb")).each do |fname|
-        if fname[0..DUMMY_FOLDER.length] != "#{DUMMY_FOLDER}/"
+        if fname[0..dummy_folder.length] != "#{dummy_folder}/"
           klass = Utility.class_from_filename(fname)
 
           Utility.const_remove(klass) if Utility.const_defined?(klass)

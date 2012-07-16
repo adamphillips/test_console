@@ -27,7 +27,7 @@ TestConsole.out "#{TestConsole.color 'Test Console', :bold}: run <filename> runs
 while line = Readline.readline('> ', false)
   trap("SIGINT") {TestConsole.abort}
   begin
-    break if line.nil? || TestConsole::QUIT_COMMANDS.include?(line)
+    break if line.nil? || TestConsole.commands(:quit).include?(line)
 
     unless line.empty?
       TestConsole::History.add line
@@ -35,20 +35,20 @@ while line = Readline.readline('> ', false)
       command = TestConsole.command(line)
 
       case
-        when TestConsole::RUN_COMMANDS.include?(command)
+        when TestConsole.commands(:run).include?(command)
           file = TestConsole.file(line)
           filter = TestConsole.filter(line)
 
           TestConsole.run file, filter
 
-        when TestConsole::RERUN_COMMANDS.include?(command)
+        when TestConsole.commands(:rerun).include?(command)
           file = TestConsole.file(line)
           filter = TestConsole.filter(line)
           type = file || 'all'
 
           TestConsole.rerun type.to_sym
 
-        when TestConsole::HELP_COMMANDS.include?(command)
+        when TestConsole.commands(:help).include?(command)
           TestConsole.out TestConsole.help
 
         else

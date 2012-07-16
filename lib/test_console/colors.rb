@@ -14,12 +14,6 @@ module TestConsole
       :white => '37'
     }
 
-    ERROR_COLOR = :red
-    BACKTRACE_LOCAL_COLOR = ERROR_COLOR
-    BACKTRACE_GEM_COLOR = :magenta
-    FAIL_COLOR = :magenta
-    SUCCESS_COLOR = :green
-
     def color(text, color)
       if COLORS[color]
         "#{start_color color}#{text}#{reset_color}"

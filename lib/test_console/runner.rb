@@ -1,6 +1,7 @@
 module TestConsole
   module Runner
     include TestConsole::Colors
+    include TestConsole::Config
 
     # Checks that the specified path is valid
     # If so it creates a test suite from the path and runs it
@@ -83,11 +84,11 @@ module TestConsole
               @num_errors = result.error_count
             when Test::Unit::TestCase::FINISHED
               if result.failure_count == @num_failures && result.error_count == @num_errors
-                out name, SUCCESS_COLOR
+                out name, success_color
               elsif result.error_count > @num_errors
-                out name, ERROR_COLOR
+                out name, error_color
               else
-                out name, FAIL_COLOR
+                out name, fail_color
               end
           end
         end
@@ -96,8 +97,8 @@ module TestConsole
       @last_run_failures = result.instance_variable_get(:@failures)
       @last_run_errors = result.instance_variable_get(:@errors)
 
-      print_negatives @last_run_failures, FAIL_COLOR
-      print_negatives @last_run_errors, ERROR_COLOR
+      print_negatives @last_run_failures, fail_color
+      print_negatives @last_run_errors, error_color
 
       print_result_summary result, Time.now - started_at
 
