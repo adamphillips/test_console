@@ -2,6 +2,7 @@ require 'test_console/history'
 require 'test_console/utility'
 
 require 'test_console/builder'
+require 'test_console/cli_parser'
 require 'test_console/colors'
 require 'test_console/help'
 require 'test_console/monitor'
@@ -27,6 +28,7 @@ module TestConsole
 
   class << self
     include TestConsole::Builder
+    include TestConsole::CliParser
     include TestConsole::Colors
     include TestConsole::Help
     include TestConsole::Monitor
@@ -36,35 +38,6 @@ module TestConsole
     def die
       History.write
       exit
-    end
-
-    # Parsing functions
-    # =================
-    # Functions to parse and normalise user input
-
-    # parses the command section of a line of user input
-    def command(line)
-      line.split(' ')[0]
-    end
-
-    # parses the file component of a line of user input
-    def file(line)
-      begin
-        line.split(' ')[1] if line.include? ' '
-      rescue
-      end
-    end
-
-    # parses the filter component of a line of input
-    def filter(line)
-      begin
-        filter_str = line.split(' ')[2..-1].join(' ')
-        filter = eval filter_str
-        filter = "/#{filter_str}/" unless filter.kind_of?(Regexp) || filter_str.nil? || filter_str.empty?
-        return filter
-      rescue
-        /#{filter_str}/ unless filter_str.nil? || filter_str.empty?
-      end
     end
 
   end

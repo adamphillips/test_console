@@ -6,5 +6,8 @@ class ASampleTest < ActiveSupport::TestCase
     should 'work' do
       assert true
     end
+
+    should 'error' do
+    end
   end
 end
