@@ -7,48 +7,53 @@ Please note : This console was written specifically to aid with testing a specif
 ### Installing the console
 
 To install, add the test console to your Gemfile
-
-```gem 'test_console'
+```ruby
+gem 'test_console'
 ```
 
 You may just want to put it in the development group
-
-```group :development
+```ruby
+group :development do
+  gem 'test_console'
+end
 ```
 
 Then bundle install
-
-```> bundle install
+```console
+> bundle install
 ```
 
 ### Using the console
 
 To start the console, cd into your tests folder and type
-
-```> test_console
+```console
+> test_console
 ```
 
 To run a test type
-
-```> run path/to/test.rb
+```console
+> run path/to/test.rb
 ```
 
   or for a folder of tests
-
-```> run folder/to/test
+```console
+> run folder/to/test
 ```
 
 You can also just use the shortcut r
-```> r folder/to/test
+```console
+> r folder/to/test
 ```
 
 
 To rerun only tests that failed or errored on the previous run use the rerun command
-```> rerun
+```console
+> rerun
 # or alternatively
 > .
 ```
 
 To quit the console type quit
-```> quit
+```console
+> quit
 ```
