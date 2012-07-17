@@ -1,0 +1,12 @@
+language: ruby
+bundler_args: --without development
+rvm:
+  - 1.8.7
+  - rbx-19mode
+  - jruby-19mode
+  - jruby-head
+  - 1.9.2
+  - 1.9.3
+notifications:
+  recipients:
+    - adam@29ways.co.cuk
