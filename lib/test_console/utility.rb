@@ -22,8 +22,7 @@ module TestConsole
         segs.last.gsub!('.rb', '')
 
         # drop the test folder
-        segs = segs[1..-1] while segs[0] == 'test'
-        segs = segs[1..-1] while ['unit', 'functional', 'helpers', 'integration'].include?(segs[0])
+        segs = segs[1..-1] while TestConsole.drop_folders.include?(segs[0])
         ret = segs.map {|seg| seg.camelize}
 
         return ret

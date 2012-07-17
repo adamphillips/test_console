@@ -32,6 +32,9 @@ module TestConsole
     mattr_accessor :stop_folders
     @@stop_folders = ['test/fixtures', 'config/environments']
 
+    # These folders are dropped from class paths when determining a class from a filename
+    mattr_accessor :drop_folders
+    @@drop_folders = ['test', 'unit', 'functional', 'helpers', 'integration']
 
     # CLI Commands
     #
