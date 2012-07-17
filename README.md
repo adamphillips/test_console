@@ -1,16 +1,18 @@
 ## Test Console
 
 Interactive console for running TestUnit tests against a Rails application.
+
 Its main purpose is to avoid having to reload the complete Rails environment between test runs in order to speed up TDD.
 
 Please note : This console was written specifically to aid with testing a specific application and so has only been tested in a small number of environments.  Please report any issues via the [Github issues](https://github.com/adamphillips/test_console/issues) page. 
 
 ### Features
-Preloads Rails environment.
-Configurable watch folders.  Files in these folders will be reloaded between if they are modfied.
-Configurable stop folders.  Changes to files in these folders mean that a full reload is neccessary.  See limitations at the end of the page for more details.
-Autocomplete test paths.
-Filter test runs across multiple files using a string or regex.
+
+* Preloads Rails environment.
+* Configurable watch folders.  Files in these folders will be reloaded between if they are modfied.
+* Configurable stop folders.  Changes to files in these folders mean that a full reload is neccessary.  See limitations at the end of the page for more details.
+* Autocomplete test paths.
+* Filter test runs across multiple files using a string or regex.
 
 
 ### Installing the console
@@ -88,9 +90,14 @@ TestConsole.setup do |config|
   config.success_color = :blue
 end
 ```
-For a full list of configurable options please refer to the source of [lib/test_console/config.rb](https://github.com/adamphillips/test_console/blob/master/lib/test_console/config.rb)
+For a full list of configurable options and their defaults please refer to the source of [lib/test_console/config.rb](https://github.com/adamphillips/test_console/blob/master/lib/test_console/config.rb).
 
 
 ### Dependencies
 
-The only dependency is [Hirb](https://github.com/cldwalker/hirb) for formatting the output data
+The only dependency is [Hirb](https://github.com/cldwalker/hirb) for formatting the output data.
+
+### Limitations
+
+Currently it is not possible for the test console to reload certain types of changes.  For example changes to fixtures or rails application config files will require the console to be restarted in order for the changes to take effect.
+Whilst we aim to get rid of these limitations eventually, for the time being these folders are also monitored for changes and if a change is found that requires a restart, the console will display a message and not run any further tests in order to avoid unusual behaviour or incorrect test results.
