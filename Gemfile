@@ -12,6 +12,9 @@ gemspec
 
 # To use debugger
 # gem 'ruby-debug'
+gem 'rails'
+gem 'hirb'
+
 group :development, :test do
   gem 'mocha'
   gem 'shoulda'
