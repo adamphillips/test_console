@@ -12,7 +12,7 @@ gemspec
 
 # To use debugger
 # gem 'ruby-debug'
-group :development do
+group :development, :test do
   gem 'mocha'
   gem 'shoulda'
 end
