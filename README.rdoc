@@ -1,3 +1,9 @@
 = TestConsole
 
-This project rocks and uses MIT-LICENSE.
+Interactive console for running TestUnit tests against a Rails application.
+
+Please note : This console was written specifically to aid with testing a specific application and so has only been tested in a small number of environments.  Please report any issues via the [Github issues](https://github.com/adamphillips/test_console/issues) page.
+
+For more information see
+
+https://github.com/adamphillips/test_console

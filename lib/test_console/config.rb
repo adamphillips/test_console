@@ -3,11 +3,20 @@ module TestConsole
     yield Config
   end
 
+  # Returns an array of commands for the specfied function.
+  # Valid commands are:
+  #
+  #   :run
+  #   :rerun
+  #   :quit
+  #   :help
+  #
   def self.commands(type)
     command = "#{type}_commands".to_sym # Deliberately not to_s-ing to avoid :
     TestConsole::Config.send(command) if TestConsole::Config.respond_to?(command)
   end
 
+  # Configuration options for the test console.
   module Config
 
     # Folders to watch
@@ -62,11 +71,11 @@ module TestConsole
     @@backtrace_local_color = @@error_color
     @@backtrace_gem_color = :magenta
 
-    # Fail
+    # Failed test runs
     mattr_accessor :fail_color
     @@fail_color = :magenta
 
-    # Success
+    # Successful test runs
     mattr_accessor :success_color
     @@success_color = :green
 

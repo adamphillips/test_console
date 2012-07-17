@@ -3,8 +3,16 @@ module TestConsole
     include TestConsole::Colors
     include TestConsole::Config
 
-    # Checks that the specified path is valid
-    # If so it creates a test suite from the path and runs it
+    # Checks that the specified path is valid.
+    # If so it creates a test suite from the path and runs it.
+    # If a filter is passed as a string or regex, individual test names are filtered by the expression.
+    #
+    # Examples:
+    #
+    #   run './unit'                           # Run every test in the unit folder
+    #   run './unit/a_model_test.rb'           # Run the specific test file
+    #   run './unit', 'update'                 # Run every test in the unit folder that has update in the test name
+    #   run './unit/a_model_test.rb' /update/i # Run every test in specified file whose name contains a case-insensitve version of 'update'
     def run path, filter=nil
       begin
         unless path && !path.empty?
@@ -36,6 +44,14 @@ module TestConsole
     end
 
     # Reruns previous failures or errors
+    # Can either just run errors or failures
+    #
+    # Examples:
+    #
+    #   rerun           # Rerun everything
+    #   rerun :errors   # Rerun errors
+    #   rerun :failures # Rerun failures
+    #
     def rerun type=nil
       return false unless @last_run_path
 
@@ -66,6 +82,7 @@ module TestConsole
     end
 
     # Runs a defined suite of tests
+    # Outputs the results
     def run_suite(suite)
       @abort = false
       @running = true
@@ -107,6 +124,8 @@ module TestConsole
       @last_run_time = Time.now
     end
 
+    # If there is a test suite running, the run is aborted
+    # Otherwise the console is killed
     def abort
       (@running) ? @abort = true : die
     end
