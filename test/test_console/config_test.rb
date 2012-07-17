@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class TestConsole::ConfigTest < ActiveSupport::TestCase
   describe_class TestConsole do
     describe_method '#commands' do

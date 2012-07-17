@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class TestConsole::UtilityTest < ActiveSupport::TestCase
   describe_class TestConsole::Utility do
     describe_method '#class_from_filename' do
@@ -129,9 +127,9 @@ class TestConsole::UtilityTest < ActiveSupport::TestCase
           end
         end
         should 'remove the constant' do
-          assert TestConsole::Utility.const_defined?(['TestModule', 'TestClass'])
+          assert_defined TestModule::TestClass
           TestConsole::Utility.const_remove(['TestModule', 'TestClass'])
-          assert_false TestConsole::Utility.const_defined?(['TestModule', 'TestClass'])
+          assert_undefined TestModule::TestClass
         end
       end
 

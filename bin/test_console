@@ -8,12 +8,18 @@
 # > ./console
 
 #require 'rails'
+if RUBY_VERSION < '1.9'
+  def require_relative path
+    require path
+  end
+end
+
 require 'readline'
 
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
-require "test_helper"
+require "../test/test_helper"
 require '../config/application'
 
 require 'test_console'
