@@ -45,6 +45,11 @@ You can also just use the shortcut r
 > r folder/to/test
 ```
 
+You can filter a test run by parsing either a string or regex as the second parameter
+```console
+> r folder/to/test some_tests
+> r folder/to/test /some_tests/
+```
 
 To rerun only tests that failed or errored on the previous run use the rerun command
 ```console
