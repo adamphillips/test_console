@@ -1,5 +1,7 @@
 ## Test Console
 
+[![Build Status](https://secure.travis-ci.org/adamphillips/test_console.png?branch=master)](http://travis-ci.org/adamphillips/test_console)
+
 Interactive console for running TestUnit tests against a Rails application.
 
 Its main purpose is to avoid having to reload the complete Rails environment between test runs in order to speed up TDD.

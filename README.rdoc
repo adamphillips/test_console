@@ -1,5 +1,7 @@
 = TestConsole
 
+{<img src="https://secure.travis-ci.org/adamphillips/test_console.png?branch=master" alt="Build Status" />}[http://travis-ci.org/adamphillips/test_console]
+
 Interactive console for running TestUnit tests against a Rails application.
 
 Please note : This console was written specifically to aid with testing a specific application and so has only been tested in a small number of environments.  Please report any issues via the [Github issues](https://github.com/adamphillips/test_console/issues) page.
