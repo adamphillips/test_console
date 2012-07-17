@@ -100,4 +100,4 @@ The only dependency is [Hirb](https://github.com/cldwalker/hirb) for formatting 
 ### Limitations
 
 Currently it is not possible for the test console to reload certain types of changes.  For example changes to fixtures or rails application config files will require the console to be restarted in order for the changes to take effect.
-Whilst we aim to get rid of these limitations eventually, for the time being these folders are also monitored for changes and if a change is found that requires a restart, the console will display a message and not run any further tests in order to avoid unusual behaviour or incorrect test results.
+Whilst I aim to get rid of these limitations eventually, for the time being these folders are also monitored for changes and if a change is found that requires a restart, the console will display a message and not run any further tests in order to avoid unusual behaviour or incorrect test results.
