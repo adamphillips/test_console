@@ -1,8 +1,17 @@
 ## Test Console
 
 Interactive console for running TestUnit tests against a Rails application.
+Its main purpose is to avoid having to reload the complete Rails environment between test runs in order to speed up TDD.
 
-Please note : This console was written specifically to aid with testing a specific application and so has only been tested in a small number of environments.  Please report any issues via the [Github issues](https://github.com/adamphillips/test_console/issues) page.
+Please note : This console was written specifically to aid with testing a specific application and so has only been tested in a small number of environments.  Please report any issues via the [Github issues](https://github.com/adamphillips/test_console/issues) page. 
+
+### Features
+Preloads Rails environment.
+Configurable watch folders.  Files in these folders will be reloaded between if they are modfied.
+Configurable stop folders.  Changes to files in these folders mean that a full reload is neccessary.  See limitations at the end of the page for more details.
+Autocomplete test paths.
+Filter test runs across multiple files using a string or regex.
+
 
 ### Installing the console
 
@@ -62,3 +71,26 @@ To quit the console type quit
 ```console
 > quit
 ```
+
+Any other commands are run as Ruby commands in your test environment and the returned value output
+```console
+> 5 + 5
+=> 10
+```
+
+### Configuring the console
+
+The console has a number of configurable options such as the colours used, the folders to watch for changes and the command shortcuts.  To set these options add the following to your test/test_helper.rb
+
+```ruby
+TestConsole.setup do |config|
+  config.watch_folders << 'app/something'
+  config.success_color = :blue
+end
+```
+For a full list of configurable options please refer to the source of [lib/test_console/config.rb](https://github.com/adamphillips/test_console/blob/master/lib/test_console/config.rb)
+
+
+### Dependencies
+
+The only dependency is [Hirb](https://github.com/cldwalker/hirb) for formatting the output data
