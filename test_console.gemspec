@@ -18,10 +18,17 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
   s.add_dependency "rails", ">= 3.0"
+  if RUBY_VERSION >= '1.9'
+    s.add_dependency "test-unit", "1.2.3"
+  end
   s.add_dependency "hirb"
 
   s.add_development_dependency "mocha"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency "ruby-debug"
+  if RUBY_VERSION < '1.9'
+    s.add_development_dependency "ruby-debug"
+  else
+    s.add_development_dependency "ruby-debug19"
+  end
 end
