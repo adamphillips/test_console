@@ -15,6 +15,10 @@ gemspec
 gem 'rails'
 gem 'hirb'
 
+group :ci do
+  gem 'sqlite3'
+end
+
 group :development, :test do
   gem 'mocha'
   gem 'shoulda'
