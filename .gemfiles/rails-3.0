@@ -7,6 +7,7 @@ source "http://rubygems.org"
 
 # To use debugger
 # gem 'ruby-debug'
+gem 'bundler', '~>1.0.0'
 gem 'rails', '3.0'
 gem 'hirb'
 
