@@ -20,6 +20,7 @@ group :ci do
 end
 
 group :development, :test do
+  gem 'rdoc'
   gem 'test-unit', '1.2.3'
   gem 'mocha'
   gem 'shoulda'

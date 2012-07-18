@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   end
   s.add_dependency "hirb"
 
+  s.add_development_dependency "rdoc"
   s.add_development_dependency "mocha"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "sqlite3"
