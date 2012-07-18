@@ -107,7 +107,7 @@ class TestConsole::UtilityTest < ActiveSupport::TestCase
         end
       end
 
-      context 'when the module is nested' do
+      context 'when the class is nested' do
         setup do
           module ::TestModule
             class TestSubModule
@@ -118,20 +118,6 @@ class TestConsole::UtilityTest < ActiveSupport::TestCase
           assert TestConsole::Utility.const_defined?(['TestModule', 'TestSubModule'])
           TestConsole::Utility.const_remove(['TestModule', 'TestSubModule'])
           assert_false TestConsole::Utility.const_defined?(['TestModule', 'TestSubModule'])
-        end
-      end
-
-      context 'when the class is nested' do
-        setup do
-          module ::TestModule
-            class TestClass
-            end
-          end
-        end
-        should 'remove the constant' do
-          assert_defined TestModule::TestClass
-          TestConsole::Utility.const_remove(['TestModule', 'TestClass'])
-          assert_undefined TestModule::TestClass
         end
       end
 
