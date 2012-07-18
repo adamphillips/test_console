@@ -8,10 +8,9 @@ rvm:
   - 1.9.2
   - 1.9.3
 gemfile:
-  - Gemfile
   - .gemfiles/rails-3.0
   - .gemfiles/rails-3.1
   - .gemfiles/rails-3.2
 notifications:
   recipients:
-    - adam@29ways.co.cuk
+    - adam@29ways.co.uk
