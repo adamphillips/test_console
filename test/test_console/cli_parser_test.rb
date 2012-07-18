@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class TestConsole::CliParserTest < ActiveSupport::TestCase
   describe_class TestConsole::CliParser do
     describe_method '#command' do
