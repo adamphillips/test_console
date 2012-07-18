@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class TestConsoleTest < ActiveSupport::TestCase
   describe_class TestConsole do
     describe_method 'something' do

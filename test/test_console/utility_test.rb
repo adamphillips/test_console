@@ -1,3 +1,5 @@
+require 'test_helper'
+
 class TestConsole::UtilityTest < ActiveSupport::TestCase
   describe_class TestConsole::Utility do
     describe_method '#class_from_filename' do
