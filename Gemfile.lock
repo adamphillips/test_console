@@ -115,6 +115,7 @@ DEPENDENCIES
   hirb
   mocha
   rails
+  rdoc
   ruby-debug
   shoulda
   sqlite3
