@@ -17,4 +17,4 @@ notifications:
 before_install:
   - rvm @default,@global do gem uninstall bundler -v 1.1.0 -x
   - gem install bundler --version '~> 1.0.0'
-  - bundler --version
+  - bundle --version
