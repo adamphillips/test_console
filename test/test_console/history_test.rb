@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'fakefs/safe'
+require 'readline'
 
 class TestConsole::HistoryTest < ActiveSupport::TestCase
 

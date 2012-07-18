@@ -24,4 +24,5 @@ group :development, :test do
   gem 'test-unit', '1.2.3'
   gem 'mocha'
   gem 'shoulda'
+  gem 'fakefs'
 end

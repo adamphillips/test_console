@@ -39,6 +39,7 @@ GEM
     builder (3.0.0)
     columnize (0.3.6)
     erubis (2.7.0)
+    fakefs (0.4.0)
     hike (1.2.1)
     hirb (0.7.0)
     hoe (3.0.6)
@@ -112,6 +113,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  fakefs
   hirb
   mocha
   rails

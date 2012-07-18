@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rdoc"
   s.add_development_dependency "mocha"
   s.add_development_dependency "shoulda"
+  s.add_development_dependency "fakefs"
   s.add_development_dependency "sqlite3"
   if RUBY_VERSION < '1.9'
     s.add_development_dependency "ruby-debug"
