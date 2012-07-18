@@ -14,3 +14,7 @@ gemfile:
 notifications:
   recipients:
     - adam@29ways.co.uk
+before_install:
+  - rvm @default,@global do gem uninstall bundler -v 1.1.0 -x
+  - gem install bundle --version '~> 1.0.0'
+  - bundle --version
