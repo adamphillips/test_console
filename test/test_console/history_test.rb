@@ -23,7 +23,8 @@ class TestConsole::HistoryTest < ActiveSupport::TestCase
         # http://bogojoker.com/readline/#libedit_history_issue
         assert File.exists?(TestConsole::History::LOCATION)
         TestConsole::History.read
-        assert_equal ['123', 'abc'], Readline::HISTORY.to_a
+        assert Readline::HISTORY.to_a.include? '123'
+        assert Readline::HISTORY.to_a.include? 'abc'
       end
     end
   end
