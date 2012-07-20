@@ -81,6 +81,14 @@ module TestConsole
       run_suite failed_suite
     end
 
+    # If there is a test suite running, the run is aborted
+    # Otherwise the console is killed
+    def abort
+      (@running) ? @abort = true : die
+    end
+
+    private
+
     # Runs a defined suite of tests
     # Outputs the results
     def run_suite(suite)
@@ -94,21 +102,7 @@ module TestConsole
 
       suite.tests.each do |test|
         break if @abort
-        test.run result do |type, name|
-          case type
-            when Test::Unit::TestCase::STARTED
-              @num_failures = result.failure_count
-              @num_errors = result.error_count
-            when Test::Unit::TestCase::FINISHED
-              if result.failure_count == @num_failures && result.error_count == @num_errors
-                out name, success_color
-              elsif result.error_count > @num_errors
-                out name, error_color
-              else
-                out name, fail_color
-              end
-          end
-        end
+        run_test test, result
       end
 
       @last_run_failures = result.instance_variable_get(:@failures)
@@ -124,10 +118,24 @@ module TestConsole
       @last_run_time = Time.now
     end
 
-    # If there is a test suite running, the run is aborted
-    # Otherwise the console is killed
-    def abort
-      (@running) ? @abort = true : die
+    # Runs a specific test and adds its results to the passed result set
+    def run_test(test, result)
+      test.run result do |type, name|
+        case type
+          when Test::Unit::TestCase::STARTED
+            @num_failures = result.failure_count
+            @num_errors = result.error_count
+          when Test::Unit::TestCase::FINISHED
+            if result.failure_count == @num_failures && result.error_count == @num_errors
+              out name, success_color
+            elsif result.error_count > @num_errors
+              out name, error_color
+            else
+              out name, fail_color
+            end
+        end
+      end
     end
+
   end
 end
