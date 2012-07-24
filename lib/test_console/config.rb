@@ -19,6 +19,28 @@ module TestConsole
   # Configuration options for the test console.
   module Config
 
+    class << self
+      private
+
+      # Finds the root folder of the application being tested.
+      # Works by looking for a parent folder containing a gemfile.
+      # If none found, it returns the current working folder.
+      def find_app_root
+        check_path = 'Gemfile'
+        return Pathname.new('.').realpath.to_s if File.exists?(check_path)
+        check_path = "../#{check_path}"
+        while File.exists?(File.dirname(check_path)) do
+          return Pathname.new(File.dirname(check_path)).realpath.to_s if File.exists?(check_path)
+          check_path = "../#{check_path}"
+        end
+        return Pathname.new('.').realpath.to_s
+      end
+    end
+
+    # Root of the application being tested
+    mattr_accessor :app_root
+    @@app_root = self.send :find_app_root
+
     # Folders to watch
     mattr_accessor :watch_paths
     @@watch_paths = ['test/support', 'lib', 'app/models', 'app/controllers', 'app/helpers', 'app/presenters']
