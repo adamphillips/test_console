@@ -1,10 +1,9 @@
 module TestConsole
+  # Monitoring functions
+  # ====================
+  # These are functions that check for changes whilst the console is open
+  # and reload the files if possible
   module Monitor
-
-    # Monitoring functions
-    # ====================
-    # These are functions that check for changes whilst the console is open
-    # and reload the files if possible
 
     # Checks for changes to watched folders and reloads the files if necessary
     def auto_reload!
@@ -67,6 +66,15 @@ module TestConsole
       @checked_views = true
 
       return false
+    end
+
+    # Checks to see if the specified file has changed since the specified time.
+    def file_changed? path, time
+      if File.exists? path
+        return true if File.mtime(path) > time
+      end
+
+      false
     end
 
   end
