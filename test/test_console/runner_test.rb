@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class TestConsole::RunnerTest < ActiveSupport::TestCase
-  describe_class TestConsole::Runner do
-    describe_method '#run' do
+  describe TestConsole::Runner do
+    describe '#run' do
     end
 
-    describe_method '#rerun' do
+    describe '#rerun' do
     end
   end
 end

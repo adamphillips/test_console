@@ -6,14 +6,29 @@ class ActiveSupport::TestCase
   end
 
   class << self
+    def describe identifier, &block
+      return describe_class(identifier, &block) if identifier.kind_of? Class
+      return describe_module(identifier, &block) if identifier.kind_of? Module
+      return describe_method(identifier, &block) if identifier.kind_of?(String) && ['#', '.'].include?(identifier[0, 1])
+      context identifier do
+        merge_block &block
+      end
+    end
+
     def describe_class class_name, &block
-      context "#{class_name.to_s}" do
+      context "#{TestConsole.color(class_name.to_s, :blue)}" do
         merge_block &block
       end
     end
 
     def describe_method method, &block
-      context method do
+      context TestConsole.color("#{method}\n", :cyan) do
+        merge_block &block
+      end
+    end
+
+    def describe_module module_name, &block
+      context "#{TestConsole.color module_name.to_s, :yellow}" do
         merge_block &block
       end
     end

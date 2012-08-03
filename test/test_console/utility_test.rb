@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class TestConsole::UtilityTest < ActiveSupport::TestCase
-  describe_class TestConsole::Utility do
-    describe_method '#class_from_filename' do
+  describe TestConsole::Utility do
+    describe '#class_from_filename' do
       context 'when passed a filename that represents the path to a class' do
         context 'when the path matches a class' do
           setup do
@@ -29,7 +29,7 @@ class TestConsole::UtilityTest < ActiveSupport::TestCase
       end
     end
 
-    describe_method '#const_defined?' do
+    describe '#const_defined?' do
       context 'when the constant is defined as a class' do
         setup do
           class ::TestClass
@@ -82,7 +82,7 @@ class TestConsole::UtilityTest < ActiveSupport::TestCase
 
     end
 
-    describe_method '#const_remove' do
+    describe '#const_remove' do
       context 'when the constant is defined as a class' do
         setup do
           class ::TestClass

@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class TestConsole::CliParserTest < ActiveSupport::TestCase
-  describe_class TestConsole::CliParser do
-    describe_method '#command' do
+  describe TestConsole::CliParser do
+    describe '#command' do
       context 'when passed a string' do
         should 'take the first segment of the string and return it' do
           assert_equal 'something', TestConsole::CliParser.command('something')
@@ -12,7 +12,7 @@ class TestConsole::CliParserTest < ActiveSupport::TestCase
       end
     end
 
-    describe_method '#file' do
+    describe '#file' do
       context 'when passed a string' do
         should 'take the second segment of the string and return it' do
           assert_equal nil, TestConsole::CliParser.file('something')
@@ -22,7 +22,7 @@ class TestConsole::CliParserTest < ActiveSupport::TestCase
       end
     end
 
-    describe_method '#filter' do
+    describe '#filter' do
       context 'when passed a string' do
         should 'take the third segment of the string and return it as a regex' do
           assert_equal nil, TestConsole::CliParser.filter('something')

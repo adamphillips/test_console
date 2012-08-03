@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class TestConsole::ConfigTest < ActiveSupport::TestCase
-  describe_class TestConsole do
-    describe_method '#commands' do
+  describe TestConsole do
+    describe '#commands' do
       context 'when passed a command type that exists' do
         setup do
           assert_not_nil TestConsole::Config.run_commands
@@ -13,7 +13,7 @@ class TestConsole::ConfigTest < ActiveSupport::TestCase
       end
     end
 
-    describe_method '#setup' do
+    describe '#setup' do
       context 'when passed a block' do
         context 'setting config variables' do
           setup do
@@ -33,78 +33,78 @@ class TestConsole::ConfigTest < ActiveSupport::TestCase
         end
       end
     end
+  end
 
-    describe_class TestConsole::Config do
-      context 'on startup' do
-        should 'set the :app_root config setting' do
-          assert_config :app_root, TestConsole::Config.send(:find_app_root)
-        end
+  describe TestConsole::Config do
+    context 'on startup' do
+      should 'set the :app_root config setting' do
+        assert_config :app_root, TestConsole::Config.send(:find_app_root)
+      end
+    end
+
+    describe '.find_app_root' do
+      setup do
+        FakeFS.activate!
       end
 
-      describe_method '.find_app_root' do
+      teardown do
+        FakeFS.deactivate!
+      end
+
+      context 'when the current folder contains a Gemfile' do
         setup do
-          FakeFS.activate!
+          FileUtils.touch 'Gemfile'
         end
 
         teardown do
-          FakeFS.deactivate!
+          FileUtils.rm 'Gemfile'
         end
 
-        context 'when the current folder contains a Gemfile' do
+        should 'return the absolute path to the folder' do
+          folder = TestConsole::Config.send :find_app_root
+          assert_equal Dir.pwd, folder
+        end
+      end
+
+      context 'when the current folder has a parent folder containing a Gemfile' do
+        context 'one level above' do
           setup do
-            FileUtils.touch 'Gemfile'
+            FileUtils.touch '../Gemfile'
+            @path = Pathname.new('..').realpath.to_s
           end
 
           teardown do
-            FileUtils.rm 'Gemfile'
+            FileUtils.rm '../Gemfile'
           end
 
           should 'return the absolute path to the folder' do
-            folder = TestConsole::Config.send :find_app_root
-            assert_equal Dir.pwd, folder
+            assert_equal @path, TestConsole::Config.send(:find_app_root)
           end
         end
 
-        context 'when the current folder has a parent folder containing a Gemfile' do
-          context 'one level above' do
-            setup do
-              FileUtils.touch '../Gemfile'
-              @path = Pathname.new('..').realpath.to_s
-            end
-
-            teardown do
-              FileUtils.rm '../Gemfile'
-            end
-
-            should 'return the absolute path to the folder' do
-              assert_equal @path, TestConsole::Config.send(:find_app_root)
-            end
+        context 'two levels above' do
+          setup do
+            FileUtils.touch '../../Gemfile'
+            @path = Pathname.new('../..').realpath.to_s
           end
 
-          context 'two levels above' do
-            setup do
-              FileUtils.touch '../../Gemfile'
-              @path = Pathname.new('../..').realpath.to_s
-            end
-
-            teardown do
-              FileUtils.rm '../../Gemfile'
-            end
-
-            should 'return the absolute path to the folder' do
-              assert_equal @path, TestConsole::Config.send(:find_app_root)
-            end
-
+          teardown do
+            FileUtils.rm '../../Gemfile'
           end
+
+          should 'return the absolute path to the folder' do
+            assert_equal @path, TestConsole::Config.send(:find_app_root)
+          end
+
         end
-
-        context 'when none of the parent folders contain a Gemfile' do
-          should 'return the current folder' do
-            assert_equal Pathname.new('.').realpath.to_s, TestConsole::Config.send(:find_app_root)
-          end
-        end
-
       end
+
+      context 'when none of the parent folders contain a Gemfile' do
+        should 'return the current folder' do
+          assert_equal Pathname.new('.').realpath.to_s, TestConsole::Config.send(:find_app_root)
+        end
+      end
+
     end
   end
 end
