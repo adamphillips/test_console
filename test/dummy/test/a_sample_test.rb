@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'shoulda'
+require 'mocha'
 
 class ASampleTest < ActiveSupport::TestCase
 

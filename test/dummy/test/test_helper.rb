@@ -1,9 +1,9 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
-#require "test/unit"
-#require "shoulda"
-#require "mocha"
+# require "test/unit"
+# require 'shoulda'
+# require 'mocha'
 
 #Rails.backtrace_cleaner.remove_silencers!
 
