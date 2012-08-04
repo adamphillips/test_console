@@ -18,15 +18,15 @@ gem 'hirb'
 group :ci do
   gem 'sqlite3'
   gem 'test-unit', '1.2.3'
-  gem 'mocha'
-  gem 'shoulda'
+  gem 'shoulda', :require => 'shoulda'
+  gem 'mocha', :require => 'mocha'
   gem 'fakefs'
 end
 
 group :development, :test do
   gem 'rdoc'
   gem 'test-unit', '1.2.3'
-  gem 'mocha'
   gem 'shoulda'
+  gem 'mocha'
   gem 'fakefs'
 end
