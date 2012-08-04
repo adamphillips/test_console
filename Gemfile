@@ -17,6 +17,7 @@ gem 'hirb'
 
 group :ci do
   gem 'sqlite3'
+  gem 'test-unit', '1.2.3'
   gem 'mocha'
   gem 'shoulda'
   gem 'fakefs'
