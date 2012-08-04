@@ -59,5 +59,77 @@ class TestConsole::MonitorTest < ActionView::TestCase
       end
     end
 
+    describe '#stop_folders_changed?' do
+      setup do
+        TestConsole.setup do |config|
+          config.stop_folders << 'test_config'
+        end
+
+        @path = 'test_config/something/config.rb'
+        FileUtils.mkdir_p 'test_config/something'
+        FileUtils.touch @path
+      end
+
+      teardown do
+        FileUtils.rm_r 'test_config'
+      end
+
+      context 'when the file has not been changed since @last_init_time' do
+        setup do
+          @last_init_time = Time.now + 1.year
+        end
+
+        should 'return false' do
+          assert_false stop_folders_changed?
+        end
+      end
+
+      context 'when the file has been changed since @last_init_time' do
+        setup do
+          @last_init_time = Time.now - 1.year
+        end
+
+        should 'return true' do
+          assert stop_folders_changed?
+        end
+      end
+    end
+
+    describe '#views_changed?' do
+      setup do
+        TestConsole.setup do |config|
+          config.view_folders << 'test_views'
+        end
+
+        @path = 'test_views/view.html.erb'
+        FileUtils.mkdir_p 'test_views'
+        FileUtils.touch @path
+      end
+
+      teardown do
+        FileUtils.rm_r 'test_views'
+      end
+
+      context 'when the file has not been changed since @last_run_time' do
+        setup do
+          @last_run_time = Time.now + 1.year
+        end
+
+        should 'return false' do
+          assert_false views_changed?
+        end
+      end
+
+      context 'when the file has been changed since @last_run_time' do
+        setup do
+          @last_run_time = Time.now - 1.year
+        end
+
+        should 'return true' do
+          assert views_changed?
+        end
+      end
+    end
+
   end
 end

@@ -35,9 +35,10 @@ module TestConsole
       return false if @last_init_time.nil?
 
       TestConsole::Config.stop_folders.each do |p|
-        Dir.glob(File.join('..', p, '**', '*.{rb,yml}')).each do |f|
-          if File.mtime(f) > @last_init_time
-            error "#{f} has been changed.\nYou will need to restart the console to reload the environment"
+        path = File.join(TestConsole::Config.app_root, p, '**', '*.{rb,yml}')
+        Dir.glob(path).each do |f|
+          if file_changed? f, @last_init_time
+            TestConsole.error "#{f} has been changed.\nYou will need to restart the console to reload the environment"
             return true
           end
         end
@@ -54,9 +55,9 @@ module TestConsole
       return false if @checked_views
 
       TestConsole::Config.view_folders.each do |vf|
-        watch_folder = File.join(Rails.root.to_s, vf)
-        Dir.glob(File.join(watch_folder, '**', '*')).each do |f|
-          if File.mtime(f) > @last_run_time
+        watch_folder = File.join(TestConsole::Config.app_root, vf, '**', '*')
+        Dir.glob(watch_folder).each do |f|
+          if file_changed? f, @last_run_time
             @checked_views = true
             return true
           end
