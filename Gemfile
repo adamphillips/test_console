@@ -19,7 +19,7 @@ group :ci do
   gem 'sqlite3'
   gem 'test-unit', '1.2.3'
   gem 'shoulda', :require => 'shoulda'
-  gem 'mocha', :require => 'mocha'
+  gem 'mocha', '0.11.4', :require => 'mocha'
   gem 'fakefs'
 end
 
@@ -27,6 +27,6 @@ group :development, :test do
   gem 'rdoc'
   gem 'test-unit', '1.2.3'
   gem 'shoulda'
-  gem 'mocha'
+  gem 'mocha', '0.11.4'
   gem 'fakefs'
 end
