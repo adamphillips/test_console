@@ -20,7 +20,7 @@ group :ci do
   gem 'test-unit', '1.2.3'
   gem 'shoulda', :require => 'shoulda'
   gem 'mocha', '0.11.4', :require => 'mocha'
-  gem 'fakefs'
+  gem 'fakefs', :require => "fakefs/safe"
 end
 
 group :development, :test do
@@ -28,5 +28,5 @@ group :development, :test do
   gem 'test-unit', '1.2.3'
   gem 'shoulda'
   gem 'mocha', '0.11.4'
-  gem 'fakefs'
+  gem 'fakefs', :require => "fakefs/safe"
 end
