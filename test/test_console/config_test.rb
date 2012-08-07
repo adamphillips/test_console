@@ -70,7 +70,7 @@ class TestConsole::ConfigTest < ActiveSupport::TestCase
         context 'one level above' do
           setup do
             FileUtils.touch '../Gemfile'
-            @path = Pathname.new('..').realpath.to_s
+            @path = File.expand_path('..')
           end
 
           teardown do
@@ -85,7 +85,7 @@ class TestConsole::ConfigTest < ActiveSupport::TestCase
         context 'two levels above' do
           setup do
             FileUtils.touch '../../Gemfile'
-            @path = Pathname.new('../..').realpath.to_s
+            @path = File.expand_path('../..')
           end
 
           teardown do
@@ -101,7 +101,7 @@ class TestConsole::ConfigTest < ActiveSupport::TestCase
 
       context 'when none of the parent folders contain a Gemfile' do
         should 'return the current folder' do
-          assert_equal Pathname.new('.').realpath.to_s, TestConsole::Config.send(:find_app_root)
+          assert_equal File.expand_path('.'), TestConsole::Config.send(:find_app_root)
         end
       end
 

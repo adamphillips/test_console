@@ -27,13 +27,13 @@ module TestConsole
       # If none found, it returns the current working folder.
       def find_app_root
         check_path = 'Gemfile'
-        return Pathname.new('.').realpath.to_s if File.exists?(check_path)
+        return File.expand_path('.') if File.exists?(check_path)
         check_path = "../#{check_path}"
         while File.exists?(File.dirname(check_path)) do
-          return Pathname.new(File.dirname(check_path)).realpath.to_s if File.exists?(check_path)
+          return File.expand_path(File.dirname(check_path)) if File.exists?(check_path)
           check_path = "../#{check_path}"
         end
-        return Pathname.new('.').realpath.to_s
+        return File.expand_path('.')
       end
     end
 
